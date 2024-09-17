@@ -66,4 +66,4 @@ This e-learning platform provides a rich online learning experience with feature
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/e-learning-platform.git
+   git clone https://github.com/temitopeAdeyemo/iLearn.git
