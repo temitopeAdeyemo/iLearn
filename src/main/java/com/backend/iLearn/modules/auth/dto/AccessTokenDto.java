@@ -1,7 +1,6 @@
-package com.backend.iLearn.modules.admin.dto;
+package com.backend.iLearn.modules.auth.dto;
 
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public class AccessTokenDto {

@@ -1,6 +1,6 @@
 package com.backend.iLearn.modules.auth.service;
 
-import com.backend.iLearn.modules.admin.dto.AccessTokenDto;
+import com.backend.iLearn.modules.auth.dto.AccessTokenDto;
 import com.backend.iLearn.modules.admin.dto.AdminLoginDto;
 import com.backend.iLearn.modules.student.dto.StudentLoginDto;
 import com.backend.iLearn.modules.tutor.dto.TutorLoginDto;
