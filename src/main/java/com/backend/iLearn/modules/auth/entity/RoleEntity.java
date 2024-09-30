@@ -2,8 +2,7 @@ package com.backend.iLearn.modules.auth.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.Set;
+import java.util.List;
 
 @Entity(name = "role")
 @Data
@@ -17,5 +16,5 @@ public class RoleEntity {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private List<User> users;
 }

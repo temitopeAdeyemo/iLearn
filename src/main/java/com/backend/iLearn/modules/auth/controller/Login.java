@@ -20,25 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class Login {
     private final LoginService loginService;
 
-    @PostMapping("/admin")
+    @PostMapping("/login")
     public ResponseEntity<ApiResponse<AccessTokenDto>> init(@Valid AdminLoginDto payload){
         AccessTokenDto response = this.loginService.exec(payload);
 
         return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
     }
-
-    @PostMapping("/tutor")
-    public ResponseEntity<ApiResponse<AccessTokenDto>> init(@Valid TutorLoginDto payload){
-        AccessTokenDto response = this.loginService.exec(payload);
-
-        return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
-    }
-
-    @PostMapping("/student")
-    public ResponseEntity<ApiResponse<AccessTokenDto>> init(@Valid StudentLoginDto payload){
-        AccessTokenDto response = this.loginService.exec(payload);
-
-        return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
-    }
-
 }

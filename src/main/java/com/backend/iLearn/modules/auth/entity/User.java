@@ -48,15 +48,15 @@ public class User implements UserDetails {
             message = "Password must contain at least one digit, one uppercase letter, one lowercase letter, and one special character (@#$%^&+=)")
     private String password;
 
-    @OneToOne(mappedBy = "userId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "userId", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Admin adminProfile;
 
-    @OneToOne(mappedBy = "userId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "userId", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Tutor tutorProfile;
 
-    @OneToOne(mappedBy = "userId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "userId", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Student studentProfile;
 
@@ -65,6 +65,7 @@ public class User implements UserDetails {
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+
     private Set<RoleEntity> roles;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -88,7 +89,7 @@ public class User implements UserDetails {
 
     @PrePersist
     protected void onCreate() {
-        System.out.println("Creating admin data.");
+        System.out.println("Creating user data.");
     }
 
     @PreUpdate
@@ -113,4 +114,11 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
+
+//    public void setAdminProfile(Admin admin) {
+//        this.adminProfile = admin;
+//        if (admin != null && admin.getUserId() != this) { // Prevent recursive loop
+//            admin.setUser(this);
+//        }
+//    }
 }

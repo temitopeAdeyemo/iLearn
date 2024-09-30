@@ -4,6 +4,7 @@ import com.backend.iLearn.common.exceptions.CredentialExistsException;
 import com.backend.iLearn.common.exceptions.NotFoundException;
 import com.backend.iLearn.modules.admin.dto.AdminDto;
 import com.backend.iLearn.modules.admin.entity.Admin;
+import com.backend.iLearn.modules.admin.repository.AdminRepository;
 import com.backend.iLearn.modules.auth.Enum.Role;
 import com.backend.iLearn.modules.auth.dto.IdResponseDto;
 import com.backend.iLearn.modules.auth.entity.RoleEntity;
@@ -23,34 +24,55 @@ import java.util.HashSet;
 public class RegisterService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final AdminRepository adminRepository;
 
-    // ****************************** ADMINS SHOULD GET INVITED, So refactor code ********************************************
-    public IdResponseDto init(AdminDto payload){
-        this.userRepository.findByEmail(payload.getEmail()).orElseThrow(()->new CredentialExistsException("Credential Exists. Contact admin to create an account for you."));
+    public IdResponseDto init(AdminDto payload) {
+        System.out.println(payload.getEmail());
 
-        var newAdmin = Admin.builder()
-                .firstName(payload.getFirstName())
-                .lastName(payload.getLastName())
-                .build();
+        // Check if user with the provided email already exists
+        var user = this.userRepository.findByEmail(payload.getEmail());
+        if (user.isPresent()) {
+            System.out.println(user.get().getPassword());
+            throw new CredentialExistsException("Credential Exists. Contact admin to create an account for you.");
+        }
 
         var newUser = new User();
 
+        // Create a new Admin instance
+        var newAdmin = new Admin();
+        newAdmin.setFirstName(payload.getFirstName());
+        newAdmin.setLastName(payload.getLastName());
+        var newUser = new User();
+        newAdmin.setUserId(newUser);
+
+//        this.adminRepository.save(newAdmin);
+
         newUser.setEmail(payload.getEmail());
         newUser.setPassword(payload.getPassword());
-        newUser.setAdminProfile(newAdmin);
 
         var roles = new HashSet<RoleEntity>();
         var adminRole = Role.ADMIN.toString();
-        var role = this.roleRepository.findByName(adminRole).orElseThrow(()->new NotFoundException("Role not found."));
-
+        var role = this.roleRepository.findByName(adminRole).orElseThrow(() -> new NotFoundException("Role not found."));
         roles.add(role);
 
         newUser.setRoles(roles);
 
-        this.userRepository.save(newUser);
+        // Save the user (and admin will be saved automatically due to cascading)
+//        this.adminRepository.save(newAdmin);
+        var dd = this.userRepository.save(newUser);
 
-        return IdResponseDto.builder().id(null).build();
+//        // Create a new Admin instance
+//        var newAdmin = new Admin();
+//        newAdmin.setFirstName(payload.getFirstName());
+//        newAdmin.setLastName(payload.getLastName());
+////        var newUser = new User();
+//        newAdmin.setUserId(dd);
+//
+//        this.adminRepository.save(newAdmin);
+
+        return IdResponseDto.builder().id(newUser.getId()).build();
     }
+
 
     public IdResponseDto init(StudentDto payload){
         this.userRepository.findByEmail(payload.getEmail()).orElseThrow(()->new CredentialExistsException("Credential Exists. Login and create a student profile if you do not have one."));

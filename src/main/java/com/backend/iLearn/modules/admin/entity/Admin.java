@@ -55,7 +55,7 @@ public class Admin {
     private Set<Chat> receivedChats = new HashSet<>();
 
     @OneToOne
-    @MapsId
+//    @MapsId
     @JoinColumn(name = "user_id")
     private User userId;
 
@@ -71,6 +71,13 @@ public class Admin {
     protected void onCreate() {
         System.out.println("Creating admin data.");
     }
+
+//    public void setUser(User user) {
+//        this.userId = user;
+//        if (user != null && user.getAdminProfile() != this) { // Prevent recursive loop
+//            user.setAdminProfile(this);
+//        }
+//    }
 
     @PreUpdate
     protected void onUpdate() {

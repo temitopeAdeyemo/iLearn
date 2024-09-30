@@ -11,31 +11,32 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/register")
+@RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
 public class Register {
     private final RegisterService registerService;
 
-    @PostMapping("/admin")
-    public ResponseEntity<ApiResponse<IdResponseDto>> init(@Valid AdminDto payload){
+    @PostMapping("/register/admin")
+    public ResponseEntity<ApiResponse<IdResponseDto>> init(@Valid @RequestBody AdminDto payload){
         var response = this.registerService.init(payload);
 
         return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", response), HttpStatus.OK);
     }
 
-    @PostMapping("/student")
-    public ResponseEntity<ApiResponse<Object>> init(@Valid StudentDto payload){
+    @PostMapping("/register/student")
+    public ResponseEntity<ApiResponse<Object>> init(@Valid @RequestBody StudentDto payload){
         var response = this.registerService.init(payload);
 
         return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", null), HttpStatus.OK);
     }
 
-    @PostMapping("/tutor")
-    public ResponseEntity<ApiResponse<Object>> init(@Valid TutorDto payload){
+    @PostMapping("/register/tutor")
+    public ResponseEntity<ApiResponse<Object>> init(@Valid @RequestBody TutorDto payload){
         this.registerService.init(payload);
 
         return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", null), HttpStatus.OK);

@@ -34,14 +34,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("in doFilterInternal *******************");
         final String authHeader= request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
-        System.out.println("authHeader -------------------_>" + authHeader);
-        System.out.println("*********************    6");
+
         if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            System.out.println("Checking authHeader if null or no Bearer *********************    6***");
+            System.out.println(request.getParameterMap().keySet() +" Checking authHeader if null or no Bearer *********************    6***");
             filterChain.doFilter(request, response);
             return;
         }
@@ -49,30 +47,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = authHeader.substring(7);
 
         userEmail = jwtService.extractUsername(jwt);
-        System.out.println("?//???????????????????????????????"+ SecurityContextHolder.getContext().getAuthentication());
+
         if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            System.out.println("if userEmail or SecurityContextHolder.getContext().getAuthentication() is null ----------------------------------------------------------->    7");
+
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if(jwtService.isTokenValid(jwt, userDetails)){
-                System.out.println("Token is Valid *********************    8");
-                System.out.println("UsernamePasswordAuthenticationToken next ********************* ");
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities()
                 );
 
-                System.out.println("*********************    9");
-                System.out.println("*********************    setting authToken Details in next line");
                 authToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );
-                System.out.println(authToken.getDetails() + ">>-----------------====>"+ authToken.getDetails().toString());
-                System.out.println("SecurityContextHolder.getContext().setAuthentication(authToken) next *********************    10");
+
                 SecurityContextHolder.getContext().setAuthentication(authToken);
-                System.out.println("*********************    10");
             }
-            System.out.println("*********************    11");
             filterChain.doFilter(request, response);
         }
     } // This is a filter per pone request
