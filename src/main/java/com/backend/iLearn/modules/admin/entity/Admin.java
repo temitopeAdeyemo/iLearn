@@ -1,5 +1,7 @@
 package com.backend.iLearn.modules.admin.entity;
 
+import com.backend.iLearn.modules.auth.Enum.Role;
+import com.backend.iLearn.modules.auth.entity.User;
 import com.backend.iLearn.modules.chat.entity.Chat;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -8,19 +10,22 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+
+import java.util.*;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Admin {
 
     @Id
@@ -41,18 +46,6 @@ public class Admin {
     @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters")
     private String lastName;
 
-    @Column(name = "email", unique = true)
-    @NotNull(message = "Email cannot be null")
-    @Email(message = "Email should be valid")
-    private String email;
-
-    @Column(name = "password")
-    @NotNull(message = "Password cannot be null")
-    @Size(min = 8, message = "Password must be at least 8 characters long")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$",
-            message = "Password must contain at least one digit, one uppercase letter, one lowercase letter, and one special character (@#$%^&+=)")
-    private String password;
-
     @OneToMany(mappedBy = "adminSenderId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @Column(name = "sent_chats")
     private Set<Chat> sentChats = new HashSet<>();
@@ -61,6 +54,11 @@ public class Admin {
     @Column(name = "receiver_chats")
     private Set<Chat> receivedChats = new HashSet<>();
 
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User userId;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdAt;
@@ -68,11 +66,6 @@ public class Admin {
     @Column(name = "updated_at", nullable = false, updatable = false)
     @CreationTimestamp
     private Date updatedAt;
-
-    public void setPassword(String password) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
-    }
 
     @PrePersist
     protected void onCreate() {

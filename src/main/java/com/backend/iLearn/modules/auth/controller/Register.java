@@ -2,6 +2,7 @@ package com.backend.iLearn.modules.auth.controller;
 
 import com.backend.iLearn.common.utils.ApiResponse;
 import com.backend.iLearn.modules.admin.dto.AdminDto;
+import com.backend.iLearn.modules.auth.dto.IdResponseDto;
 import com.backend.iLearn.modules.auth.service.RegisterService;
 import com.backend.iLearn.modules.student.dto.StudentDto;
 import com.backend.iLearn.modules.tutor.dto.TutorDto;
@@ -20,15 +21,15 @@ public class Register {
     private final RegisterService registerService;
 
     @PostMapping("/admin")
-    public ResponseEntity<ApiResponse<Object>> init(@Valid AdminDto payload){
-        this.registerService.init(payload);
+    public ResponseEntity<ApiResponse<IdResponseDto>> init(@Valid AdminDto payload){
+        var response = this.registerService.init(payload);
 
-        return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", null), HttpStatus.OK);
+        return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", response), HttpStatus.OK);
     }
 
     @PostMapping("/student")
     public ResponseEntity<ApiResponse<Object>> init(@Valid StudentDto payload){
-        this.registerService.init(payload);
+        var response = this.registerService.init(payload);
 
         return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", null), HttpStatus.OK);
     }

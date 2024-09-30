@@ -13,8 +13,18 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionAdvice {
     @ExceptionHandler(value = {ResourceNotFoundException.class})
-    public ResponseEntity<ApiException<ApiException<Object>>> handlePathException(ResourceNotFoundException ex){
+    public ResponseEntity<ApiException<ApiException<Object>>> handleResourceNotFoundException(ResourceNotFoundException ex){
         return new ResponseEntity<>(new ApiException<>("Resource Not Found", null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {CredentialExistsException.class})
+    public ResponseEntity<ApiException<ApiException<Object>>> handleCredentialExistsException(CredentialExistsException ex){
+        return new ResponseEntity<>(new ApiException<>(ex.getMessage(), null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {NotFoundException.class})
+    public ResponseEntity<ApiException<ApiException<Object>>> handleNotFoundException(NotFoundException ex){
+        return new ResponseEntity<>(new ApiException<>(ex.getMessage(), null), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
