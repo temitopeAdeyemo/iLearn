@@ -1,23 +1,14 @@
 package com.backend.iLearn.modules.admin.entity;
 
-import com.backend.iLearn.modules.auth.Enum.Role;
 import com.backend.iLearn.modules.auth.entity.User;
 import com.backend.iLearn.modules.chat.entity.Chat;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
@@ -32,7 +23,7 @@ public class Admin {
     @Column
     @Nullable
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "first_name")
     @NotNull(message = "First name cannot be null")
@@ -56,8 +47,9 @@ public class Admin {
 
     @OneToOne
 //    @MapsId
+    @ToString.Exclude // To avoid Handler dispatch failed: java.lang.StackOverflowError When I did user.get().getAdminProfile()
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
@@ -71,13 +63,6 @@ public class Admin {
     protected void onCreate() {
         System.out.println("Creating admin data.");
     }
-
-//    public void setUser(User user) {
-//        this.userId = user;
-//        if (user != null && user.getAdminProfile() != this) { // Prevent recursive loop
-//            user.setAdminProfile(this);
-//        }
-//    }
 
     @PreUpdate
     protected void onUpdate() {

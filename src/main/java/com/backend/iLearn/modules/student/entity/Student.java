@@ -48,9 +48,9 @@ public class Student {
     private String lastName;
 
     @OneToOne
-    @MapsId
+//    @MapsId
     @JoinColumn(name = "user_id")
-    private User userId;
+    private User user;
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(

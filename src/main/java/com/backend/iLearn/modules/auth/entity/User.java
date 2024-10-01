@@ -4,16 +4,14 @@ import com.backend.iLearn.modules.admin.entity.Admin;
 //import com.backend.iLearn.modules.auth.Enum.Role;
 import com.backend.iLearn.modules.student.entity.Student;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,7 +32,7 @@ public class User implements UserDetails {
     @Column
     @Nullable
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id = UUID.randomUUID();
+    private UUID id;
 
     @Column(name = "email", unique = true)
     @NotNull(message = "Email cannot be null")
@@ -48,19 +46,20 @@ public class User implements UserDetails {
             message = "Password must contain at least one digit, one uppercase letter, one lowercase letter, and one special character (@#$%^&+=)")
     private String password;
 
-    @OneToOne(mappedBy = "userId", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}/*, fetch = FetchType.LAZY*/)
     private Admin adminProfile;
 
-    @OneToOne(mappedBy = "userId", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}/*, fetch = FetchType.LAZY*/)
     private Tutor tutorProfile;
 
-    @OneToOne(mappedBy = "userId", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}/*, fetch = FetchType.LAZY*/)
     private Student studentProfile;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -114,11 +113,4 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
-
-//    public void setAdminProfile(Admin admin) {
-//        this.adminProfile = admin;
-//        if (admin != null && admin.getUserId() != this) { // Prevent recursive loop
-//            admin.setUser(this);
-//        }
-//    }
 }

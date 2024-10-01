@@ -32,13 +32,13 @@ public class Register {
     public ResponseEntity<ApiResponse<Object>> init(@Valid @RequestBody StudentDto payload){
         var response = this.registerService.init(payload);
 
-        return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", null), HttpStatus.OK);
+        return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", response), HttpStatus.OK);
     }
 
     @PostMapping("/register/tutor")
     public ResponseEntity<ApiResponse<Object>> init(@Valid @RequestBody TutorDto payload){
-        this.registerService.init(payload);
+        var response = this.registerService.init(payload);
 
-        return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", null), HttpStatus.OK);
+        return new ResponseEntity<>( new ApiResponse<>("User  registered successfully", response), HttpStatus.OK);
     }
 }

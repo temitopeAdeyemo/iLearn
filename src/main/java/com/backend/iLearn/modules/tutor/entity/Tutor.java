@@ -48,9 +48,9 @@ import java.util.*;
         private String lastName;
 
         @OneToOne
-        @MapsId
+    //    @MapsId
         @JoinColumn(name = "user_id")
-        private User userId;
+        private User user;
 
         @OneToMany(mappedBy = "tutor", cascade = {CascadeType.PERSIST /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
         @Column(name = "courses")
