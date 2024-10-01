@@ -1,6 +1,6 @@
 package com.backend.iLearn.modules.tutor.controller;
 
-import com.backend.iLearn.common.utils.ApiResponse;
+import com.backend.iLearn.common.responses.ApiResponse;
 import com.backend.iLearn.common.utils.PaginationRequest;
 import com.backend.iLearn.modules.tutor.dto.TutorDto;
 import com.backend.iLearn.modules.tutor.entity.Tutor;

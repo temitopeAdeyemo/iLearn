@@ -1,6 +1,7 @@
 package com.backend.iLearn.config;
 
-import com.backend.iLearn.common.utils.ApiException;
+import com.backend.iLearn.common.responses.ApiException;
+import com.backend.iLearn.modules.auth.Enum.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,13 +26,12 @@ public class SecurityConfiguration {
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     @Bean
     SecurityFilterChain web(HttpSecurity http) throws Exception {
-        System.out.println("**************************** web ***********************");
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/student/**").hasRole(Role.STUDENT.name())
                         .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -48,7 +48,6 @@ public class SecurityConfiguration {
                                     response.setContentType("application/json");
                                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                     response.getWriter().write(this.objectMapper.writeValueAsString(new ApiException<>(accessDeniedException.getMessage(), null)));
-//                                  response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden: " + accessDeniedException.getMessage());
                                 })
                 )
                 ;

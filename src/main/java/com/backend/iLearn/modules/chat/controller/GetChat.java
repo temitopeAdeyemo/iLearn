@@ -1,6 +1,6 @@
 package com.backend.iLearn.modules.chat.controller;
 
-import com.backend.iLearn.common.utils.ApiResponse;
+import com.backend.iLearn.common.responses.ApiResponse;
 import com.backend.iLearn.modules.chat.dto.ChatDto;
 import com.backend.iLearn.modules.chat.entity.Chat;
 import com.backend.iLearn.modules.chat.service.GetChatService;

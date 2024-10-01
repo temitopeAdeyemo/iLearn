@@ -19,11 +19,10 @@ public class ApplicationConfig {
     private final UserRepository userRepository;
 
    @Bean
-   public UserDetailsService adminUserDetailsService(){
+   public UserDetailsService userDetailsService(){
        System.out.println("In userDetailsService **************** ");
 
-
-       return username -> userRepository.findByEmail(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
+       return username -> userRepository.findByEmail_(username).orElseThrow(()-> new UsernameNotFoundException("User not found"));
    }
 
    @Bean
@@ -31,7 +30,7 @@ public class ApplicationConfig {
        System.out.println("authenticationProvider *********************    3");
        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
        System.out.println("authenticationProvider *********************    3*1");
-       authenticationProvider.setUserDetailsService(adminUserDetailsService());
+       authenticationProvider.setUserDetailsService(userDetailsService());
        System.out.println("authenticationProvider *********************    3*2");
        authenticationProvider.setPasswordEncoder(passwordEncoder());
        System.out.println("setUserDetailsService and setPasswordEncoder in authenticationProvider *********************    5");

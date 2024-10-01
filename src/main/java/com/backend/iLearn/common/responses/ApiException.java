@@ -1,4 +1,4 @@
-package com.backend.iLearn.common.utils;
+package com.backend.iLearn.common.responses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,6 +22,5 @@ public class ApiException<T> {
         this.message = message;
 
         this.data = data;
-
     }
 }

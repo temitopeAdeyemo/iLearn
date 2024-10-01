@@ -1,9 +1,10 @@
 package com.backend.iLearn.common.exceptions;
 
-import com.backend.iLearn.common.utils.ApiException;
+import com.backend.iLearn.common.responses.ApiException;
 import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -41,7 +42,7 @@ public class ExceptionAdvice {
             errorMap.put(e.getField(), e.getDefaultMessage());
         });
 
-        ApiException<Map<String, String>> apiException = new ApiException<>("VALIDATION FAILED.", errorMap );
+        ApiException<Map<String, String>> apiException = new ApiException<>("Validation Failed.", errorMap );
 
         return new ResponseEntity<>( apiException, HttpStatus.BAD_REQUEST);
     }
@@ -51,18 +52,20 @@ public class ExceptionAdvice {
         return new ResponseEntity<>(new ApiException<>(ex.getMessage(), null), HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
 
     @ExceptionHandler(value = {HttpRequestMethodNotSupportedException.class})
     public ResponseEntity<ApiException<Object>> handleInvalidArgument(HttpRequestMethodNotSupportedException ex){
         return new ResponseEntity<>( new ApiException<>("Page Not Found", null), HttpStatus.NOT_FOUND);
     }
 
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(value = {BadCredentialsException.class})
+    public ResponseEntity<ApiException<Object>> handleBadCredentialsException(BadCredentialsException ex){
+        return new ResponseEntity<>( new ApiException<>("Invalid Credentials.", null), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(value = {MethodArgumentTypeMismatchException.class})
     public ResponseEntity<ApiException<Object>> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex){
-        return new ResponseEntity<>( new ApiException<>("Invalid Parameter", null), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>( new ApiException<>("Invalid Parameter.", null), HttpStatus.BAD_REQUEST);
     }
 
 

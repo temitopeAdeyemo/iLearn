@@ -1,6 +1,6 @@
 package com.backend.iLearn.modules.course.controller;
 
-import com.backend.iLearn.common.utils.ApiResponse;
+import com.backend.iLearn.common.responses.ApiResponse;
 import com.backend.iLearn.common.utils.PaginationRequest;
 import com.backend.iLearn.modules.course.dto.CourseDto;
 import com.backend.iLearn.modules.course.entity.Course;

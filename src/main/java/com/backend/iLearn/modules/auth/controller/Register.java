@@ -1,6 +1,6 @@
 package com.backend.iLearn.modules.auth.controller;
 
-import com.backend.iLearn.common.utils.ApiResponse;
+import com.backend.iLearn.common.responses.ApiResponse;
 import com.backend.iLearn.modules.admin.dto.AdminDto;
 import com.backend.iLearn.modules.auth.dto.IdResponseDto;
 import com.backend.iLearn.modules.auth.service.RegisterService;
