@@ -1,10 +1,8 @@
 package com.backend.iLearn.modules.auth.entity;
 
 import com.backend.iLearn.modules.admin.entity.Admin;
-//import com.backend.iLearn.modules.auth.Enum.Role;
 import com.backend.iLearn.modules.student.entity.Student;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
