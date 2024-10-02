@@ -19,14 +19,14 @@ import java.util.UUID;
 public class GetStudent {
     public final GetStudentService getStudentService;
     @GetMapping("/fetch-one/{id}")
-    public ResponseEntity<ApiResponse< Student>> init(@PathVariable(value = "id") UUID id){
-        Student response = this.getStudentService.getOne(id);
+    public ResponseEntity<ApiResponse< StudentDto>> init(@PathVariable(value = "id") UUID id){
+        var response = this.getStudentService.getOne(id);
         return new ResponseEntity<>( new ApiResponse<>("Student fetched in successfully", response), HttpStatus.OK);
     }
 
     @GetMapping("/fetch-all")
-    public ResponseEntity<ApiResponse<Set<Student>>> init(@ModelAttribute StudentDto filter, @ModelAttribute PaginationRequest pageData){
-        Set< Student> response = this.getStudentService.getMany(filter, pageData);
+    public ResponseEntity<ApiResponse<Set<StudentDto>>> init(@ModelAttribute StudentDto filter, @ModelAttribute PaginationRequest pageData){
+        Set< StudentDto> response = this.getStudentService.getMany(filter, pageData);
         return new ResponseEntity<>( new ApiResponse<>("Students fetched in successfully", response), HttpStatus.OK);
     }
 }

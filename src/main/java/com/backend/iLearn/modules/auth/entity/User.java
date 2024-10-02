@@ -3,6 +3,8 @@ package com.backend.iLearn.modules.auth.entity;
 import com.backend.iLearn.modules.admin.entity.Admin;
 import com.backend.iLearn.modules.student.entity.Student;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @Builder
 public class User implements UserDetails {
 
@@ -52,12 +55,14 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}/*, fetch = FetchType.LAZY*/)
     private Tutor tutorProfile;
 
+    @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response
     @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
     @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}/*, fetch = FetchType.LAZY*/)
     private Student studentProfile;
 
+    @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response
     @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -107,8 +112,33 @@ public class User implements UserDetails {
 //        return List.of(new SimpleGrantedAuthority(roles.name()));
 //    }
 
+    @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response
+    public boolean isEnabled() {
+        return UserDetails.super.isEnabled();
+    }
+
+    @Override
+    @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response
+    public boolean isAccountNonExpired() {
+        return UserDetails.super.isAccountNonExpired();
+    }
+
+    @Override
+    @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response
+    public boolean isAccountNonLocked() {
+        return UserDetails.super.isAccountNonLocked();
+    }
+
+    @JsonIgnore // tells Jackson not to include these fields in the serialized JSON response
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return UserDetails.super.isCredentialsNonExpired();
     }
 }

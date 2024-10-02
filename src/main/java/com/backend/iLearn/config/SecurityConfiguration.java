@@ -40,11 +40,13 @@ public class SecurityConfiguration {
                 )
                 .exceptionHandling((exceptions) -> exceptions
                                 .authenticationEntryPoint((request, response, authException)->{
+                                    System.out.println("-------------------"+ authException.toString());
                                     response.setContentType("application/json");
                                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                     response.getWriter().write(this.objectMapper.writeValueAsString(new ApiException<>(authException.getMessage(), null)));
                                 })
                                 .accessDeniedHandler((request, response, accessDeniedException) -> {
+                                    System.out.println("....................");
                                     response.setContentType("application/json");
                                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                     response.getWriter().write(this.objectMapper.writeValueAsString(new ApiException<>(accessDeniedException.getMessage(), null)));

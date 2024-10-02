@@ -2,7 +2,7 @@ package com.backend.iLearn.modules.auth.service;
 
 import com.backend.iLearn.common.exceptions.CredentialExistsException;
 import com.backend.iLearn.common.exceptions.NotFoundException;
-import com.backend.iLearn.modules.admin.dto.AdminDto;
+import com.backend.iLearn.modules.admin.dto.CreateAdminDto;
 import com.backend.iLearn.modules.admin.entity.Admin;
 import com.backend.iLearn.modules.admin.repository.AdminRepository;
 import com.backend.iLearn.modules.auth.Enum.Role;
@@ -11,9 +11,9 @@ import com.backend.iLearn.modules.auth.entity.RoleEntity;
 import com.backend.iLearn.modules.auth.entity.User;
 import com.backend.iLearn.modules.auth.repository.RoleRepository;
 import com.backend.iLearn.modules.auth.repository.UserRepository;
-import com.backend.iLearn.modules.student.dto.StudentDto;
+import com.backend.iLearn.modules.student.dto.CreateStudentDto;
 import com.backend.iLearn.modules.student.entity.Student;
-import com.backend.iLearn.modules.tutor.dto.TutorDto;
+import com.backend.iLearn.modules.tutor.dto.CreateTutorDto;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class RegisterService {
     private final RoleRepository roleRepository;
     private final AdminRepository adminRepository;
 
-    public IdResponseDto init(AdminDto payload) {
+    public IdResponseDto init(CreateAdminDto payload) {
         var user = this.userRepository.findByEmail(payload.getEmail());
 
         if (user.isPresent()) throw new CredentialExistsException("Credential Exists. Contact admin to create an account for you.");
@@ -53,7 +53,7 @@ public class RegisterService {
     }
 
 
-    public IdResponseDto init(StudentDto payload){
+    public IdResponseDto init(CreateStudentDto payload){
         var user = this.userRepository.findByEmail(payload.getEmail());
 
         if (user.isPresent()) throw new CredentialExistsException("Credential Exists. Login and create a student profile if you do not have one.");
@@ -82,7 +82,7 @@ public class RegisterService {
         return IdResponseDto.builder().id(newUser.getId()).build();
     }
 
-    public IdResponseDto init(TutorDto payload){
+    public IdResponseDto init(CreateTutorDto payload){
         var user = this.userRepository.findByEmail(payload.getEmail());
 
         if (user.isPresent()) throw new CredentialExistsException("Credential Exists. Login and create a tutor profile if you do not have one.");

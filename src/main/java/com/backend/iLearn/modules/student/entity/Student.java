@@ -4,16 +4,14 @@ import com.backend.iLearn.modules.auth.Enum.Role;
 import com.backend.iLearn.modules.auth.entity.User;
 import com.backend.iLearn.modules.chat.entity.Chat;
 import com.backend.iLearn.modules.course.entity.Course;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,6 +46,8 @@ public class Student {
     private String lastName;
 
     @OneToOne
+    @JsonIgnore
+    @ToString.Exclude
 //    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
