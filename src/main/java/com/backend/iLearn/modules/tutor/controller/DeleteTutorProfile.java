@@ -1,7 +1,6 @@
 package com.backend.iLearn.modules.tutor.controller;
 
 import com.backend.iLearn.common.responses.ApiResponse;
-import com.backend.iLearn.modules.admin.service.RemoveAdminAccessService;
 import com.backend.iLearn.modules.tutor.service.DeleteTutorProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
