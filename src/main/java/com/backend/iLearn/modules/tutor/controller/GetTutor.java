@@ -17,13 +17,13 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GetTutor {
     public GetTutorService getTutorService;
-    @PostMapping("/fetch-one/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse< Tutor>> init(@PathVariable(value = "id") String id){
         Tutor response = this.getTutorService.getOne(id);
         return new ResponseEntity<>( new ApiResponse<>("Tutor fetched successfully", response), HttpStatus.OK);
     }
 
-    @PostMapping("/fetch-all")
+    @GetMapping("/fetch-all")
     public ResponseEntity<ApiResponse<Set<Tutor>>> init(@ModelAttribute TutorDto filter, @ModelAttribute PaginationRequest pageData){
         Set< Tutor> response = this.getTutorService.getMany(filter, pageData);
         return new ResponseEntity<>( new ApiResponse<>("Tutors fetched successfully", response), HttpStatus.OK);

@@ -17,15 +17,15 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GetCourse {
     public GetCourseService getCourseService;
-    @PostMapping("/fetch-one/{id}")
-    public ResponseEntity<ApiResponse< Course>> init(@PathVariable(value = "id") String id){
-        Course response = this.getCourseService.getOne(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<CourseDto>> init(@PathVariable(value = "id") String id){
+        CourseDto response = this.getCourseService.getOne(id);
         return new ResponseEntity<>( new ApiResponse<>("Course fetched in successfully", null), HttpStatus.OK);
     }
 
-    @PostMapping("/fetch-all")
-    public ResponseEntity<ApiResponse<Set<Course>>> init(@ModelAttribute CourseDto filter, @ModelAttribute PaginationRequest pageData){
-        Set< Course> response = this.getCourseService.getMany(filter, pageData);
+    @GetMapping("/fetch-all")
+    public ResponseEntity<ApiResponse<Set<CourseDto>>> init(@ModelAttribute CourseDto filter, @ModelAttribute PaginationRequest pageData){
+        Set<CourseDto> response = this.getCourseService.getMany(filter, pageData);
         return new ResponseEntity<>( new ApiResponse<>("Courses fetched in successfully", response), HttpStatus.OK);
     }
 }

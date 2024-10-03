@@ -18,7 +18,7 @@ import java.util.Set;
 public class GetChat {
     private final GetChatService getChatService;
 
-    @PostMapping("/fetch-all")
+    @GetMapping("/fetch-all")
     public ResponseEntity<ApiResponse<Set<Chat>>> init(@Valid @ModelAttribute ChatDto filter){
         var response = this.getChatService.getConversation();
         return new ResponseEntity<>( new ApiResponse<>("Chat fetched in successfully", response), HttpStatus.OK);

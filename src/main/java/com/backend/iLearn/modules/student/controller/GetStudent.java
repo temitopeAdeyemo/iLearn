@@ -18,7 +18,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class GetStudent {
     public final GetStudentService getStudentService;
-    @GetMapping("/fetch-one/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse< StudentDto>> init(@PathVariable(value = "id") UUID id){
         var response = this.getStudentService.getOne(id);
         return new ResponseEntity<>( new ApiResponse<>("Student fetched in successfully", response), HttpStatus.OK);

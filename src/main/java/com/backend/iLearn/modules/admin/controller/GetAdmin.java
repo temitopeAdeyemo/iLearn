@@ -19,13 +19,13 @@ import java.util.HashSet;
 @RequiredArgsConstructor
 public class GetAdmin {
     private final GetAdminService getAdminService;
-    @PostMapping("/fetch-one")
+    @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<Admin>> init(@RequestParam @Valid GetAdminByUniqueFieldDto payload){
         Admin response = this.getAdminService.getOne(payload);
         return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
     }
 
-    @PostMapping("/fetch-all")
+    @GetMapping("/fetch-all")
     public ResponseEntity<ApiResponse<HashSet<Admin>>> init(@ModelAttribute AdminDto filter, @ModelAttribute PaginationRequest pageData){
         HashSet<Admin> response = this.getAdminService.getMany(filter, pageData);
         return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
