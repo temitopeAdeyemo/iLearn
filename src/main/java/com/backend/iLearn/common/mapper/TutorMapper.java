@@ -18,8 +18,8 @@ public class TutorMapper {
 
         return TutorDto.builder()
                 .id(tutor.getId())
-                .firstName(tutor.getFirstName())
-                .lastName(tutor.getLastName())
+//                .firstName(tutor.getFirstName())
+//                .lastName(tutor.getLastName())
                 .user(tutor.getUser() != null ? tutor.getUser() : null)
                 .courses(mapCoursesToIds(tutor.getCourses()))
                 .createdAt(tutor.getCreatedAt())
@@ -33,8 +33,8 @@ public class TutorMapper {
         }
 
         return Tutor.builder()
-                .firstName(tutorDTO.getFirstName())
-                .lastName(tutorDTO.getLastName())
+//                .firstName(tutorDTO.getFirstName())
+//                .lastName(tutorDTO.getLastName())
                 .user(user)
                 .build();
     }

@@ -4,6 +4,7 @@ import com.backend.iLearn.common.responses.ApiException;
 import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -21,6 +22,11 @@ public class ExceptionAdvice {
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     public ResponseEntity<ApiException<ApiException<Object>>> handleResourceNotFoundException(ResourceNotFoundException ex){
         return new ResponseEntity<>(new ApiException<>("Resource Not Found", null), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    public ResponseEntity<ApiException<ApiException<Object>>> handleCredentialExistsException(HttpMessageNotReadableException ex){
+        return new ResponseEntity<>(new ApiException<>("Required request body is missing.", null), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = {CredentialExistsException.class})

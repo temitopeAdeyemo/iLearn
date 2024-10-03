@@ -1,6 +1,7 @@
 package com.backend.iLearn.common.mapper;
 
 import com.backend.iLearn.modules.admin.dto.AdminDto;
+import com.backend.iLearn.modules.admin.dto.CreateAdminDto;
 import com.backend.iLearn.modules.admin.entity.Admin;
 import com.backend.iLearn.modules.auth.entity.User;
 
@@ -12,22 +13,22 @@ public class AdminMapper {
 
         return AdminDto.builder()
                 .id(admin.getId())
-                .firstName(admin.getFirstName())
-                .lastName(admin.getLastName())
+//                .firstName(admin.getFirstName())
+//                .lastName(admin.getLastName())
                 .createdAt(admin.getCreatedAt())
                 .updatedAt(admin.getUpdatedAt())
                 .user(admin.getUser() != null ? admin.getUser() : null)
                 .build();
     }
 
-    public static Admin toEntity(AdminDto adminDTO, User user) {
+    public static Admin toEntity(CreateAdminDto adminDTO, User user) {
         if (adminDTO == null) {
             return null;
         }
 
         return Admin.builder()
-                .firstName(adminDTO.getFirstName())
-                .lastName(adminDTO.getLastName())
+//                .firstName(adminDTO.getFirstName())
+//                .lastName(adminDTO.getLastName())
                 .user(user)
                 .build();
     }

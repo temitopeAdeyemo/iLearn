@@ -17,8 +17,8 @@ public class StudentMapper {
 
         return StudentDto.builder()
                 .id(student.getId())
-                .firstName(student.getFirstName())
-                .lastName(student.getLastName())
+//                .firstName(student.getFirstName())
+//                .lastName(student.getLastName())
                 .user(student.getUser() != null ? student.getUser() : null)
                 .courses(mapCoursesToIds(student.getCourses()))
                 .createdAt(student.getCreatedAt())
@@ -32,8 +32,8 @@ public class StudentMapper {
         }
 
         return Student.builder()
-                .firstName(studentDTO.getFirstName())
-                .lastName(studentDTO.getLastName())
+//                .firstName(studentDTO.getFirstName())
+//                .lastName(studentDTO.getLastName())
                 .user(user)
                 .build();
     }

@@ -24,7 +24,6 @@ import java.util.HashSet;
 public class RegisterService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private final AdminRepository adminRepository;
 
     public IdResponseDto init(CreateAdminDto payload) {
         var user = this.userRepository.findByEmail(payload.getEmail());
@@ -32,10 +31,13 @@ public class RegisterService {
         if (user.isPresent()) throw new CredentialExistsException("Credential Exists. Contact admin to create an account for you.");
 
         var newAdmin = new Admin();
-        newAdmin.setFirstName(payload.getFirstName());
-        newAdmin.setLastName(payload.getLastName());
+//        newAdmin.setFirstName(payload.getFirstName());
+//        newAdmin.setLastName(payload.getLastName());
 
         var newUser = new User();
+
+        newUser.setFirstName(payload.getFirstName());
+        newUser.setLastName(payload.getLastName());
         newUser.setAdminProfile(newAdmin);
         newUser.getAdminProfile().setUser(newUser);
         newUser.setEmail(payload.getEmail());
@@ -58,13 +60,15 @@ public class RegisterService {
 
         if (user.isPresent()) throw new CredentialExistsException("Credential Exists. Login and create a student profile if you do not have one.");
 
-        var newStudent = Student.builder()
-                .firstName(payload.getFirstName())
-                .lastName(payload.getLastName())
-                .build();
-
+//        var newStudent = Student.builder()
+////                .firstName(payload.getFirstName())
+////                .lastName(payload.getLastName())
+//                .build();
+        var newStudent = new Student();
         var newUser = new User();
 
+        newUser.setFirstName(payload.getFirstName());
+        newUser.setLastName(payload.getLastName());
         newUser.setEmail(payload.getEmail());
         newUser.setPassword(payload.getPassword());
         newUser.setStudentProfile(newStudent);
@@ -87,16 +91,18 @@ public class RegisterService {
 
         if (user.isPresent()) throw new CredentialExistsException("Credential Exists. Login and create a tutor profile if you do not have one.");
 
-        var newTutor = Tutor.builder()
-                .firstName(payload.getFirstName())
-                .lastName(payload.getLastName())
-                .build();
+//        var newTutor = Tutor.builder()
+////                .firstName(payload.getFirstName())
+////                .lastName(payload.getLastName())
+//                .build();
 
         var newUser = new User();
 
         newUser.setEmail(payload.getEmail());
         newUser.setPassword(payload.getPassword());
-        newUser.setTutorProfile(newTutor);
+        newUser.setFirstName(payload.getFirstName());
+        newUser.setLastName(payload.getLastName());
+        newUser.setTutorProfile(new Tutor());
 
         newUser.getTutorProfile().setUser(newUser);
 

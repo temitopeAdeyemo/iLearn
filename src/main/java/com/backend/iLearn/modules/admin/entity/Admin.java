@@ -25,17 +25,17 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "first_name")
-    @NotNull(message = "First name cannot be null")
-    @Size(min = 1, max = 25, message = "First name must be between 1 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "First name must contain only letters")
-    private String firstName;
-
-    @Column(name = "last_name")
-    @NotNull(message = "Last name cannot be null")
-    @Size(min = 1, max = 25, message = "Last name must be between 1 and 50 characters")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters")
-    private String lastName;
+//    @Column(name = "first_name")
+//    @NotNull(message = "First name cannot be null")
+//    @Size(min = 1, max = 25, message = "First name must be between 1 and 50 characters")
+//    @Pattern(regexp = "^[a-zA-Z]+$", message = "First name must contain only letters")
+//    private String firstName;
+//
+//    @Column(name = "last_name")
+//    @NotNull(message = "Last name cannot be null")
+//    @Size(min = 1, max = 25, message = "Last name must be between 1 and 50 characters")
+//    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters")
+//    private String lastName;
 
     @OneToMany(mappedBy = "adminSenderId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @Column(name = "sent_chats")

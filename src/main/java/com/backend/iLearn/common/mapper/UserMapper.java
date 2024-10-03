@@ -19,6 +19,8 @@ public class UserMapper {
         return UserDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .roles(mapRolesToNames(user.getRoles()))
                 .adminProfile(user.getAdminProfile() != null ? user.getAdminProfile() : null)
                 .tutorProfile(user.getTutorProfile() != null ? user.getTutorProfile() : null)

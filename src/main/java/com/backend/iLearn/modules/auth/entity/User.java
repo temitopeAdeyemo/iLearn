@@ -35,6 +35,18 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "first_name")
+    @NotNull(message = "First name cannot be null")
+    @Size(min = 1, max = 50, message = "First name must be between 1 and 50 characters")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "First name must contain only letters")
+    private String firstName;
+
+    @Column(name = "last_name")
+    @NotNull(message = "Last name cannot be null")
+    @Size(min = 1, max = 50, message = "Last name must be between 1 and 50 characters")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters")
+    private String lastName;
+
     @Column(name = "email", unique = true)
     @NotNull(message = "Email cannot be null")
     @Email(message = "Email should be valid")
