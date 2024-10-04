@@ -1,9 +1,7 @@
 package com.backend.iLearn.modules.student.controller;
 
 import com.backend.iLearn.common.responses.ApiResponse;
-import com.backend.iLearn.modules.admin.service.RemoveAdminAccessService;
 import com.backend.iLearn.modules.student.service.DeleteStudentProfileService;
-import com.backend.iLearn.modules.tutor.service.DeleteTutorProfileService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
