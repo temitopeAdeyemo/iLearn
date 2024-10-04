@@ -27,14 +27,10 @@ public class TutorMapper {
                 .build();
     }
 
-    public static Tutor toEntity(TutorDto tutorDTO, User user) {
-        if (tutorDTO == null) {
-            return null;
-        }
+    public static Tutor toEntity(User user) {
+
 
         return Tutor.builder()
-//                .firstName(tutorDTO.getFirstName())
-//                .lastName(tutorDTO.getLastName())
                 .user(user)
                 .build();
     }

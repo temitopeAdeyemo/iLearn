@@ -26,11 +26,11 @@ public class InviteAdmin {
     private final CreateAdminService createAdminService;
 
     @PostMapping("/access")
-    public ResponseEntity<ApiResponse<IdResponseDto>> init(@RequestBody @Valid CreateAdminDto payload){
+    public ResponseEntity<ApiResponse<IdResponseDto>> init(){
         var authenticatedUser = SecurityContextHolder.getContext().getAuthentication();
         User user = (User)authenticatedUser.getPrincipal();
 
-        IdResponseDto response = this.createAdminService.exec(payload, user);
+        IdResponseDto response = this.createAdminService.exec( user);
         return new ResponseEntity<>( new ApiResponse<>("Admin access added successfully", response), HttpStatus.CREATED);
     }
 }

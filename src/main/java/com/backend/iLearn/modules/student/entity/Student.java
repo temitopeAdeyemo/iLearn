@@ -1,22 +1,13 @@
 package com.backend.iLearn.modules.student.entity;
 
-import com.backend.iLearn.modules.auth.Enum.Role;
 import com.backend.iLearn.modules.auth.entity.User;
 import com.backend.iLearn.modules.chat.entity.Chat;
 import com.backend.iLearn.modules.course.entity.Course;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.*;
 
@@ -33,22 +24,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-//    @Column(name = "first_name")
-//    @NotNull(message = "First name cannot be null")
-//    @Size(min = 1, max = 25, message = "First name must be between 1 and 50 characters")
-//    @Pattern(regexp = "^[a-zA-Z]+$", message = "First name must contain only letters")
-//    private String firstName;
-//
-//    @Column(name = "last_name")
-//    @NotNull(message = "Last name cannot be null")
-//    @Size(min = 1, max = 25, message = "Last name must be between 1 and 50 characters")
-//    @Pattern(regexp = "^[a-zA-Z]+$", message = "Last name must contain only letters")
-//    private String lastName;
-
     @OneToOne
     @JsonIgnore
-    @ToString.Exclude
-//    @MapsId
     @JoinColumn(name = "user_id")
     private User user;
 

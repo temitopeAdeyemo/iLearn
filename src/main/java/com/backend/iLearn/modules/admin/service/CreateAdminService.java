@@ -18,7 +18,7 @@ public class CreateAdminService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public IdResponseDto exec(CreateAdminDto payload, User user) {
+    public IdResponseDto exec( User user) {
         if (user.getRoles().stream().anyMatch(role -> role.getName().equals(Role.ADMIN.name()))) {
             throw new CredentialExistsException("Admin profile already exists for user.");
         }
@@ -29,7 +29,7 @@ public class CreateAdminService {
 
         user.getRoles().add(role);
 
-        var adminData = AdminMapper.toEntity(payload, user);
+        var adminData = AdminMapper.toEntity(user);
 
         user.setAdminProfile(adminData);
         user.getAdminProfile().setUser(user);
