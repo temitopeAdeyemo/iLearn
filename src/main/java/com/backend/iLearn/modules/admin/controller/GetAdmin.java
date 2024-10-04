@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/admin")
@@ -20,14 +21,14 @@ import java.util.HashSet;
 public class GetAdmin {
     private final GetAdminService getAdminService;
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Admin>> init(@RequestParam @Valid GetAdminByUniqueFieldDto payload){
-        Admin response = this.getAdminService.getOne(payload);
+    public ResponseEntity<ApiResponse<AdminDto>> init(@PathVariable(value = "id") @Valid UUID id){
+        AdminDto response = this.getAdminService.getOne(id);
         return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
     }
 
     @GetMapping("/fetch-all")
-    public ResponseEntity<ApiResponse<HashSet<Admin>>> init(@ModelAttribute AdminDto filter, @ModelAttribute PaginationRequest pageData){
-        HashSet<Admin> response = this.getAdminService.getMany(filter, pageData);
+    public ResponseEntity<ApiResponse<HashSet<AdminDto>>> init(@ModelAttribute AdminDto filter, @ModelAttribute PaginationRequest pageData){
+        HashSet<AdminDto> response = this.getAdminService.getMany(filter, pageData);
         return new ResponseEntity<>( new ApiResponse<>("User logged in successfully", response), HttpStatus.OK);
     }
 }

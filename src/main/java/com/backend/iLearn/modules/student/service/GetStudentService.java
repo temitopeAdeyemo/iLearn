@@ -33,15 +33,13 @@ public class GetStudentService {
         HashSet<StudentDto> studentResponse = new HashSet<>();
         students.forEach((student -> {
             System.out.println(student.getReceivedChats());
-            var a = StudentDto.builder()
+            var studentDtoData = StudentDto.builder()
                     .id(student.getId())
-//                    .firstName(student.getFirstName())
-//                    .lastName(student.getLastName())
                     .createdAt(student.getCreatedAt())
                     .updatedAt(student.getUpdatedAt())
                     .build();
 
-            studentResponse.add(a);
+            studentResponse.add(studentDtoData);
         }));
 
         return studentResponse;

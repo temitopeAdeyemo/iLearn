@@ -1,6 +1,16 @@
 package com.backend.iLearn.modules.student.service;
 
+import com.backend.iLearn.modules.student.repository.StudentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
 public class DeleteStudentProfileService {
-    public void exec(String user_id) {
+    private final StudentRepository studentRepository;
+    public void exec(UUID id) {
+        this.studentRepository.deleteById(id);
     }
 }

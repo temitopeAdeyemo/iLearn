@@ -3,8 +3,8 @@ package com.backend.iLearn.modules.student.controller;
 import com.backend.iLearn.common.responses.ApiResponse;
 import com.backend.iLearn.common.utils.PaginationRequest;
 import com.backend.iLearn.modules.student.dto.StudentDto;
-import com.backend.iLearn.modules.student.entity.Student;
 import com.backend.iLearn.modules.student.service.GetStudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,9 @@ import java.util.UUID;
 @RequestMapping("/api/v1/student")
 @RequiredArgsConstructor
 public class GetStudent {
-    public final GetStudentService getStudentService;
+    private final GetStudentService getStudentService;
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse< StudentDto>> init(@PathVariable(value = "id") UUID id){
+    public ResponseEntity<ApiResponse< StudentDto>> init(@PathVariable(value = "id") @Valid UUID id){
         var response = this.getStudentService.getOne(id);
         return new ResponseEntity<>( new ApiResponse<>("Student fetched in successfully", response), HttpStatus.OK);
     }
