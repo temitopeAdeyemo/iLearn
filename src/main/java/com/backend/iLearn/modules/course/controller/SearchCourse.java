@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashSet;
 
 @RestController
-@RequestMapping("/api/v1/course")
+@RequestMapping("/api/v1/course/search")
 @RequiredArgsConstructor
 public class SearchCourse {
     public GetCourseService getCourseService;

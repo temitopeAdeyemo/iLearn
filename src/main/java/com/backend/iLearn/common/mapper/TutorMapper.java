@@ -1,5 +1,6 @@
 package com.backend.iLearn.common.mapper;
 
+import com.backend.iLearn.modules.auth.dto.UserDto;
 import com.backend.iLearn.modules.auth.entity.User;
 import com.backend.iLearn.modules.chat.entity.Chat;
 import com.backend.iLearn.modules.course.entity.Course;
@@ -16,12 +17,20 @@ public class TutorMapper {
             return null;
         }
 
+        var user = tutor.getUser();
+        UserDto userDto = UserDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+
         return TutorDto.builder()
                 .id(tutor.getId())
 //                .firstName(tutor.getFirstName())
 //                .lastName(tutor.getLastName())
-                .user(tutor.getUser() != null ? tutor.getUser() : null)
-                .courses(mapCoursesToIds(tutor.getCourses()))
+                .user(tutor.getUser() != null ? userDto : null)
+//                .courses(mapCoursesToIds(tutor.getCourses()))
                 .createdAt(tutor.getCreatedAt())
                 .updatedAt(tutor.getUpdatedAt())
                 .build();

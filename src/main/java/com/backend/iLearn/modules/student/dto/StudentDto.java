@@ -24,7 +24,10 @@ public class StudentDto {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private User user;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<Course> courses ;
+
+    private String email;
 
     private Date createdAt;
 

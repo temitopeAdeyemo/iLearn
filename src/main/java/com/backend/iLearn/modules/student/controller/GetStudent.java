@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/student")
+@RequestMapping("/api/v1/student/fetch")
 @RequiredArgsConstructor
 public class GetStudent {
     private final GetStudentService getStudentService;
@@ -24,7 +24,7 @@ public class GetStudent {
         return new ResponseEntity<>( new ApiResponse<>("Student fetched in successfully", response), HttpStatus.OK);
     }
 
-    @GetMapping("/fetch-all")
+    @GetMapping("/")
     public ResponseEntity<ApiResponse<Set<StudentDto>>> init(@ModelAttribute StudentDto filter, @ModelAttribute PaginationRequest pageData){
         Set< StudentDto> response = this.getStudentService.getMany(filter, pageData);
         return new ResponseEntity<>( new ApiResponse<>("Students fetched in successfully", response), HttpStatus.OK);

@@ -3,15 +3,12 @@ package com.backend.iLearn.modules.admin.controller;
 import com.backend.iLearn.common.responses.ApiResponse;
 import com.backend.iLearn.common.utils.PaginationRequest;
 import com.backend.iLearn.modules.admin.dto.AdminDto;
-import com.backend.iLearn.modules.admin.dto.GetAdminByUniqueFieldDto;
-import com.backend.iLearn.modules.admin.entity.Admin;
 import com.backend.iLearn.modules.admin.service.GetAdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashSet;
 import java.util.UUID;
 

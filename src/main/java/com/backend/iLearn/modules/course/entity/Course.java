@@ -6,9 +6,7 @@ import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.*;
@@ -17,6 +15,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Course {
     @Id
     @Column
@@ -29,13 +28,12 @@ public class Course {
     @Size(min = 1, max = 100, message = "Title must be between 1 and 250 characters")
     private String title;
 
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
-    @NotNull(message = "Content cannot be null")
-    private String content;
+    @Column(name = "description")
+    @Size(max = 500)
+    private String description;
 
     @OneToMany(mappedBy = "course", orphanRemoval = true, cascade = { CascadeType.ALL /*CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
-    @Column(name = "videos")
-    private Set<CourseVideos> videos = new HashSet<>();
+    private Set<CourseContent> courseContents = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor")

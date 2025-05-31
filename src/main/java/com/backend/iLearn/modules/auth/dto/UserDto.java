@@ -5,6 +5,7 @@ import com.backend.iLearn.modules.auth.entity.RoleEntity;
 import com.backend.iLearn.modules.student.entity.Student;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -30,17 +31,24 @@ public class UserDto {
 
     private String lastName;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Admin adminProfile;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Tutor tutorProfile;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Student studentProfile;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Set<RoleEntity> roles;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date createdAt;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Date updatedAt;
 }

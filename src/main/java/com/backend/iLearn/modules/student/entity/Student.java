@@ -29,6 +29,7 @@ public class Student {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @JsonIgnore
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Student_courses",
@@ -37,10 +38,12 @@ public class Student {
     )
     Set<Course> courses = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "studentSenderId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @Column(name = "sent_chats")
     private Set<Chat> sent_Chats = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "studentReceiverId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
     @Column(name = "received_chats")
     private Set<Chat> receivedChats = new HashSet<>();

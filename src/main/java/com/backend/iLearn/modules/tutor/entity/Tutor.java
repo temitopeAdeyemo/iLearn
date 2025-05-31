@@ -30,14 +30,17 @@ import java.util.*;
         @JoinColumn(name = "user_id")
         private User user;
 
+        @JsonIgnore
         @OneToMany(mappedBy = "tutor", cascade = {CascadeType.PERSIST /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
         @Column(name = "courses")
         private Set<Course> courses = new HashSet<>();
 
+        @JsonIgnore
         @OneToMany(mappedBy = "tutorSenderId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
         @Column(name = "sent_chats")
         private Set<Chat> sentChats = new HashSet<>();
 
+        @JsonIgnore
         @OneToMany(mappedBy = "tutorReceiverId", orphanRemoval = true, cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}, fetch = FetchType.LAZY)
         @Column(name = "received_chats")
         private Set<Chat> receivedChats = new HashSet<>();

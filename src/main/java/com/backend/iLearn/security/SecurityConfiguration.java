@@ -1,4 +1,4 @@
-package com.backend.iLearn.config;
+package com.backend.iLearn.security;
 
 import com.backend.iLearn.common.responses.ApiException;
 import com.backend.iLearn.modules.auth.Enum.Role;
@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +33,19 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/tutor/fetch/**" ).authenticated()
+                        .requestMatchers("/api/v1/student/fetch/").hasAnyRole(Role.TUTOR.name(),Role.ADMIN.name())
+                        .requestMatchers("/api/v1/student/fetch/**").authenticated()
                         .requestMatchers("/api/v1/student/**").hasRole(Role.STUDENT.name())
+                        .requestMatchers("/api/v1/admin/**").hasRole(Role.ADMIN.name())
+                        .requestMatchers("/api/v1/tutor/**").hasAnyRole(Role.TUTOR.name(), Role.ADMIN.name())
+                        .requestMatchers(
+                                AntPathRequestMatcher.antMatcher(HttpMethod.POST, "/api/v1/course/**"),
+                                AntPathRequestMatcher.antMatcher(HttpMethod.PATCH, "/api/v1/course/**"),
+                                AntPathRequestMatcher.antMatcher(HttpMethod.DELETE, "/api/v1/course/**")
+                        ).hasAnyRole(Role.ADMIN.name(), Role.TUTOR.name())
+                        .requestMatchers("/api/v1/course/**").authenticated()
+                        .requestMatchers("/api/v1/user/all").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated()
                 ).authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
@@ -51,8 +65,7 @@ public class SecurityConfiguration {
                                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                                     response.getWriter().write(this.objectMapper.writeValueAsString(new ApiException<>(accessDeniedException.getMessage(), null)));
                                 })
-                )
-                ;
+                );
 
         return http.build();
     }

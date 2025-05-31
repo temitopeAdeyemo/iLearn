@@ -7,6 +7,8 @@ import com.backend.iLearn.modules.admin.dto.AdminDto;
 import com.backend.iLearn.modules.admin.entity.Admin;
 import com.backend.iLearn.modules.admin.repository.AdminRepository;
 
+import com.backend.iLearn.modules.auth.dto.UserDto;
+import com.backend.iLearn.modules.auth.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,11 +36,28 @@ public class GetAdminService {
         HashSet<AdminDto> adminResponse = new HashSet<>();
         admins.forEach((admin -> {
             System.out.println(admin.getReceivedChats());
+//            User user = admin.getUser();
             var adminDtoData = AdminDto.builder()
                     .id(admin.getId())
+                    .firstName(admin.getUser().getFirstName())
+                    .lastName(admin.getUser().getLastName())
+                    .email(admin.getUser().getEmail())
                     .createdAt(admin.getCreatedAt())
                     .updatedAt(admin.getUpdatedAt())
                     .build();
+//            UserDto userDto = UserDto.builder()
+//                    .id(user.getId())
+//                    .firstName(user.getFirstName())
+//                    .lastName(user.getLastName())
+//                    .email(user.getEmail())
+//                    .build();
+//
+//            AdminDto adminDtoData = AdminDto.builder()
+//                    .id(admin.getId())
+//                    .user(userDto)
+//                    .createdAt(admin.getCreatedAt())
+//                    .updatedAt(admin.getUpdatedAt())
+//                    .build();
 
             adminResponse.add(adminDtoData);
         }));

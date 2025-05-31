@@ -1,4 +1,4 @@
-package com.backend.iLearn.config;
+package com.backend.iLearn.security;
 
 import com.backend.iLearn.common.responses.ApiException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,6 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                 if (jwtService.isTokenValid(jwt, userDetails)) {
+                    System.out.println("------>>>>>>>"+userDetails.getAuthorities());
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,

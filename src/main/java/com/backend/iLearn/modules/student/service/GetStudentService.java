@@ -35,6 +35,9 @@ public class GetStudentService {
             System.out.println(student.getReceivedChats());
             var studentDtoData = StudentDto.builder()
                     .id(student.getId())
+                    .firstName(student.getUser().getFirstName())
+                    .lastName(student.getUser().getLastName())
+                    .email(student.getUser().getEmail())
                     .createdAt(student.getCreatedAt())
                     .updatedAt(student.getUpdatedAt())
                     .build();

@@ -1,4 +1,4 @@
-package com.backend.iLearn.config;
+package com.backend.iLearn.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

@@ -3,6 +3,7 @@ package com.backend.iLearn.modules.tutor.service;
 import com.backend.iLearn.common.exceptions.NotFoundException;
 import com.backend.iLearn.common.mapper.TutorMapper;
 import com.backend.iLearn.common.utils.PaginationRequest;
+import com.backend.iLearn.modules.course.dto.CourseDto;
 import com.backend.iLearn.modules.tutor.dto.TutorDto;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
 import com.backend.iLearn.modules.tutor.repository.TutorRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -36,6 +38,9 @@ public class GetTutorService {
             System.out.println(tutor.getReceivedChats());
             var tutorDtoData = TutorDto.builder()
                     .id(tutor.getId())
+                    .firstName(tutor.getUser().getFirstName())
+                    .lastName(tutor.getUser().getLastName())
+                    .email(tutor.getUser().getEmail())
                     .createdAt(tutor.getCreatedAt())
                     .updatedAt(tutor.getUpdatedAt())
                     .build();
@@ -44,5 +49,20 @@ public class GetTutorService {
         }));
 
         return tutorResponse;
+    }
+
+    public List<CourseDto> getTutorCourses(String id){
+        System.out.println(id);
+        var tutor = this.tutorRepository.findById(UUID.fromString(id)).orElseThrow(()-> new NotFoundException("Tutor Not Found"));
+
+        return tutor.getCourses().stream().map((course ->
+            CourseDto.builder()
+                    .title(course.getTitle())
+                    .description(course.getDescription())
+                    .id(course.getId())
+                    .createdAt(course.getCreatedAt().toString())
+                    .build()
+                )
+            ).toList();
     }
 }

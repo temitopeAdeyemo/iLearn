@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/course")
 @RequiredArgsConstructor
 public class CreateCourse {
-    public CreateCourseService createCourseService;
+    private final CreateCourseService createCourseService;
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<IdResponseDto>> init(@RequestBody @Valid CreateCourseDto payload){
         IdResponseDto response = this.createCourseService.exec(payload);

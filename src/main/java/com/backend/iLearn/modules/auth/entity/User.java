@@ -4,6 +4,7 @@ import com.backend.iLearn.modules.admin.entity.Admin;
 import com.backend.iLearn.modules.student.entity.Student;
 import com.backend.iLearn.modules.tutor.entity.Tutor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -58,6 +59,7 @@ public class User implements UserDetails {
             message = "Password must contain at least one digit, one uppercase letter, one lowercase letter, and one special character (@#$%^&+=)")
     private String password;
 
+    @JsonIgnoreProperties
     @JsonIgnore// tells Jackson not to include these fields in the serialized JSON response and avoid joined data from loading bidirectional data infinitely.
 //    @ToString.Exclude// To avoid Handler dispatch failed: java.lang.StackOverflowError from loading bidirectional data infinitely
     @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL /*CascadeType.ALL, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.REFRESH*/ /*, CascadeType.DETACH*/}/*, fetch = FetchType.LAZY*/)

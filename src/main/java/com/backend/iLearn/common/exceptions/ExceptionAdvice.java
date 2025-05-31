@@ -1,11 +1,15 @@
 package com.backend.iLearn.common.exceptions;
 
 import com.backend.iLearn.common.responses.ApiException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.transaction.TransactionSystemException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
@@ -40,15 +45,18 @@ public class ExceptionAdvice {
     }
 
     @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public ResponseEntity<ApiException<Map<String, String>>> handleInvalidArgument(MethodArgumentNotValidException ex){
+    public ResponseEntity<ApiException<String>> handleInvalidArgument(MethodArgumentNotValidException ex){
         System.out.println("MethodArgumentNotValidException: " + ex);
-        Map<String, String> errorMap = new HashMap<>();
 
-        ex.getBindingResult().getFieldErrors().forEach(e -> {
-            errorMap.put(e.getField(), e.getDefaultMessage());
-        });
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        var message = "Validation failed.";
 
-        ApiException<Map<String, String>> apiException = new ApiException<>("Validation Failed.", errorMap );
+        for(FieldError fieldError : fieldErrors){
+            message = fieldError.getDefaultMessage();
+            break;
+        }
+
+        ApiException<String > apiException = new ApiException<>(message, null );
 
         return new ResponseEntity<>( apiException, HttpStatus.BAD_REQUEST);
     }
@@ -74,7 +82,6 @@ public class ExceptionAdvice {
         return new ResponseEntity<>( new ApiException<>("Invalid Parameter.", null), HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiException<Map<String, String>>> handleAllExceptions(Exception ex) {
         System.out.println("Exception: " + ex);
@@ -82,5 +89,19 @@ public class ExceptionAdvice {
         ApiException<Map<String, String>> apiException = new ApiException<>(ex.getMessage(), null);
 
         return new ResponseEntity<>(apiException, badRequest);
+    }
+
+    @ExceptionHandler(TransactionSystemException.class)
+    public ResponseEntity<ApiException<String>> handleTransactionException(TransactionSystemException ex) {
+        Throwable cause = ex.getRootCause();
+        var message = "Unexpected error occurred.";
+        if (cause instanceof ConstraintViolationException violationException) {
+            for (ConstraintViolation<?> violation : violationException.getConstraintViolations()) {
+                message = violation.getMessage();
+                break;
+            }
+            return new ResponseEntity<>(new ApiException<>(message, null), HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiException<>(message, null));
     }
 }

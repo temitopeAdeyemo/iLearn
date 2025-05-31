@@ -16,7 +16,7 @@ public class AdminMapper {
                 .id(admin.getId())
                 .createdAt(admin.getCreatedAt())
                 .updatedAt(admin.getUpdatedAt())
-                .user(admin.getUser() != null ? admin.getUser() : null)
+//                .user(admin.getUser() != null ? admin.getUser() : null)
                 .build();
     }
 

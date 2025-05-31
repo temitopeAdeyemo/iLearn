@@ -6,6 +6,8 @@ import com.backend.iLearn.modules.auth.dto.UserDto;
 import com.backend.iLearn.modules.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -13,9 +15,15 @@ import java.util.UUID;
 public class GetUserService {
     private final UserRepository userRepository;
 
-    public UserDto exec(UUID id){
+    public UserDto findOne(UUID id){
         var user = this.userRepository.findById(id).orElseThrow(()->new NotFoundException("User Not Found."));
 
         return UserMapper.toDto(user);
+    }
+
+    public List<UserDto> findAll(){
+        var users = this.userRepository.findAll();
+
+         return users.stream().map(UserMapper::toDto).toList();
     }
 }
