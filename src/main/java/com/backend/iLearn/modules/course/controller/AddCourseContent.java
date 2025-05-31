@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/video/course")
+@RequestMapping("/api/v1/course/content")
 @RequiredArgsConstructor
 public class AddCourseContent {
     private final CreateCourseContentService createCourseContentService;
