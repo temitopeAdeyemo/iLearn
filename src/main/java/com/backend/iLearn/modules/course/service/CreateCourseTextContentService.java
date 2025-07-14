@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -21,9 +20,6 @@ public class CreateCourseTextContentService {
     private final CourseRepository courseRepository;
     private final TextContentRepository textContentRepository;
     public List<IdResponseDto> exec(Course course,  Set<CreateCourseTextContentDto> payloadSet){
-        System.out.println("111111111");
-//        Course course = this.courseRepository.findById(UUID.fromString(courseId)).orElseThrow(()->new NotFoundException("Course not found"));
-
         List<IdResponseDto> idList = new ArrayList<>();
         var courseTextEntities = payloadSet.stream().map((payload)->{
             TextContent courseTexts = new TextContent();
@@ -31,6 +27,7 @@ public class CreateCourseTextContentService {
             courseTexts.setContent(payload.getContent());
             courseTexts.setTitle(payload.getTitle());
             courseTexts.setCourse(course);
+            courseTexts.setSequenceNumber(payload.getSequenceNumber());
 
             idList.add(IdResponseDto.builder().id(courseTexts.getId()).build());
             return courseTexts;

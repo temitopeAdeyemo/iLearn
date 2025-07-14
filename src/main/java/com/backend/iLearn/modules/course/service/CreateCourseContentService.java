@@ -24,7 +24,6 @@ public class CreateCourseContentService {
     private final CreateCourseVideoContentService createCourseVideoContentService;
     private final CreateCourseTextContentService createCourseTextContentService;
     public CreateCourseContentResponseDto exec(CreateCourseContentDto payload){
-        System.out.println("111111111");
         Course course = this.courseRepository.findById(UUID.fromString(payload.getCourseId())).orElseThrow(()->new NotFoundException("Course not found"));
 
         Set<CreateCourseVideoContentDto> videoData = payload.getVideos();

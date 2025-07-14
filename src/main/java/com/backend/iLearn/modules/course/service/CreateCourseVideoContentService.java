@@ -25,19 +25,17 @@ public class CreateCourseVideoContentService {
     private final CourseRepository courseRepository;
     private final VideoContentRepository videoContentRepository;
     public List<IdResponseDto> exec(Course course, Set<CreateCourseVideoContentDto> payloadSet){
-        System.out.println("111111111");
-//        Course course = this.courseRepository.findById(UUID.fromString(courseId)).orElseThrow(()->new NotFoundException("Course not found"));
-
         List<IdResponseDto> idList = new ArrayList<>();
         var courseTextEntities = payloadSet.stream().map((payload)->{
-            VideoContent courseTexts = new VideoContent();
+            VideoContent courseVideos = new VideoContent();
 
-            courseTexts.setUrl(payload.getUrl());
-            courseTexts.setTitle(payload.getTitle());
-            courseTexts.setCourse(course);
+            courseVideos.setUrl(payload.getUrl());
+            courseVideos.setTitle(payload.getTitle());
+            courseVideos.setCourse(course);
+            courseVideos.setSequenceNumber(payload.getSequenceNumber());
 
-            idList.add(IdResponseDto.builder().id(courseTexts.getId()).build());
-            return courseTexts;
+            idList.add(IdResponseDto.builder().id(courseVideos.getId()).build());
+            return courseVideos;
         }).collect(Collectors.toSet());
 
         this.videoContentRepository.saveAll(courseTextEntities);

@@ -1,6 +1,7 @@
 package com.backend.iLearn.modules.course.dto;
 
 import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,9 +23,11 @@ public class CreateCourseDto {
     @NotEmpty(message = "Description cannot be blank or empty")
     private String description;
 
-    @Nullable
+//    @Nullable
+    @Valid
     private Set<CreateCourseVideoContentDto> videos;
 
-    @Nullable
+//    @Nullable
+    @Valid
     private Set<CreateCourseTextContentDto> texts;
 }

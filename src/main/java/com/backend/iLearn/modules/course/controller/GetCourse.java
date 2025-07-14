@@ -27,8 +27,8 @@ public class GetCourse {
     }
 
     @GetMapping("/fetch-all")
-    public ResponseEntity<ApiResponse<List<CourseDto>>> getAllCourses(@ModelAttribute CourseDto filter, @ModelAttribute PaginationRequest pageData){
-        List<CourseDto> response = this.getCourseService.getMany(filter, pageData);
+    public ResponseEntity<ApiResponse<List<CourseDto>>> getAllCourses(@ModelAttribute PaginationRequest pageData){
+        List<CourseDto> response = this.getCourseService.getMany( pageData);
         return new ResponseEntity<>( new ApiResponse<>("Courses fetched in successfully", response), HttpStatus.OK);
     }
 }

@@ -15,7 +15,7 @@ import lombok.*;
 @DiscriminatorValue("TEXT")
 @Entity
 public class TextContent extends CourseContent {
-    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
-    @NotNull(message = "Content cannot be null")
+    @Column(name = "content", columnDefinition = "TEXT")
+//    @NotNull(message = "Content cannot be null")
     private String content;
 }

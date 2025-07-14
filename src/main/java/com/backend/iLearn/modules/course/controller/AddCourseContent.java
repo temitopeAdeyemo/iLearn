@@ -24,6 +24,6 @@ public class AddCourseContent {
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<CreateCourseContentResponseDto>> init(@RequestBody @Valid CreateCourseContentDto payload){
         var response = this.createCourseContentService.exec(payload);
-        return new ResponseEntity<>( new ApiResponse<>("Course video added successfully", response), HttpStatus.CREATED);
+        return new ResponseEntity<>( new ApiResponse<>("Course content added successfully", response), HttpStatus.CREATED);
     }
 }

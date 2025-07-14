@@ -16,8 +16,8 @@ import lombok.*;
 @Entity
 public class VideoContent extends CourseContent{
 
-    @Column(name = "url", nullable = false)
-    @NotNull(message = "Video URL cannot be null")
+    @Column(name = "url")
+//    @NotNull(message = "Video URL cannot be null")
     @Size(min = 5, message = "URL must be at least 5 characters long")
     private String url;
 }

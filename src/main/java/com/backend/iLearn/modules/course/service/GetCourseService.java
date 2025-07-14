@@ -22,13 +22,12 @@ public class GetCourseService {
 
         return CourseDto.builder()
                 .title(course.getTitle())
-//                .content(course.getContent())
                 .id(course.getId())
                 .createdAt(course.getCreatedAt().toString())
                 .build();
     }
 
-    public List<CourseDto> getMany(CourseDto filter, PaginationRequest pageData){
+    public List<CourseDto> getMany(PaginationRequest pageData){
 
         var pageRequestData = PageRequest.of(pageData.getPage(), pageData.getSize(), Sort.by(Sort.Direction.DESC, "createdAt"));
         var courses = this.courseRepository.findAll(pageRequestData);
@@ -43,7 +42,7 @@ public class GetCourseService {
         )).toList();
     }
 
-    public HashSet<CourseDto> search(String keyword/*, PaginationRequest pageData*/){
+    public HashSet<CourseDto> search(String keyword, Integer page, Integer size){
         return null;
     }
 }

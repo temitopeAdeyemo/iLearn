@@ -3,13 +3,13 @@ package com.backend.iLearn.modules.course.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateCourseTextContentDto extends CreateCourseContentDto_ {
     @NotNull(message = "Content cannot be null")
     @NotBlank(message = "Content cannot be blank or empty.")
